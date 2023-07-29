@@ -14,15 +14,15 @@ function activate(context) {
 
   // Registering the command and pushing it to the context subscriptions
   let disposable = vscode.commands.registerCommand(
-    "extension.generateProjectStructure",
-    generateProjectStructure
+    "extension.generateProjectLayout",
+    generateProjectLayout
   );
 
   context.subscriptions.push(disposable);
 }
 
-// Function to generate the project structure
-function generateProjectStructure() {
+// Function to generate the project layout
+function generateProjectLayout() {
   // Getting the root path
   const rootPath = vscode.workspace.workspaceFolders
     ? vscode.workspace.workspaceFolders[0].uri.fsPath
@@ -34,7 +34,7 @@ function generateProjectStructure() {
   }
 
   // Getting the settings
-  const config = vscode.workspace.getConfiguration('vscodeProjectStructure');
+  const config = vscode.workspace.getConfiguration('vscodeProjectLayout');
   const outputFileName = config.get('outputFileName');
   const outputFileLocation = config.get('outputFileLocation');
   const additionalIgnoreDirs = config.get('additionalIgnoreDirs');
@@ -49,15 +49,15 @@ function generateProjectStructure() {
   let output = "";
   switch (outputFormat) {
     case 'markdown':
-      output += "--- Folder Structure ---\n";
-      output += getFolderStructureMarkdown(rootPath, ignoreDirs, ignoreExtensions, 0);
+      output += "--- Folder Layout ---\n";
+      output += getFolderLayoutMarkdown(rootPath, ignoreDirs, ignoreExtensions, 0);
       break;
     case 'json':
-      output += JSON.stringify(getFolderStructureJson(rootPath, ignoreDirs, ignoreExtensions), null, 2);
+      output += JSON.stringify(getFolderLayoutJson(rootPath, ignoreDirs, ignoreExtensions), null, 2);
       break;
     default:
-      output += "--- Folder Structure ---\n";
-      output += getFolderStructurePlain(rootPath, ignoreDirs, ignoreExtensions, 0);
+      output += "--- Folder Layout ---\n";
+      output += getFolderLayoutPlain(rootPath, ignoreDirs, ignoreExtensions, 0);
   }
 
   // Determine the file extension based on the output format
@@ -82,15 +82,15 @@ function generateProjectStructure() {
   // Writing the output to the file
   fs.writeFileSync(outputPath, output);
 
-  // Showing a message that the project structure was generated successfully
-  vscode.window.showInformationMessage("Project structure generated successfully");
+  // Showing a message that the project layout was generated successfully
+  vscode.window.showInformationMessage("Project layout generated successfully");
 }
 
 
-// Functions to get the folder structure
-// Function to get the folder structure in JSON format
-function getFolderStructureJson(dir, ignoreDirs, ignoreExtensions) {
-  let structure = {};
+// Functions to get the folder layout
+// Function to get the folder layout in JSON format
+function getFolderLayoutJson(dir, ignoreDirs, ignoreExtensions) {
+  let layout = {};
 
   // If the directory exists
   if (fs.existsSync(dir)) {
@@ -103,25 +103,25 @@ function getFolderStructureJson(dir, ignoreDirs, ignoreExtensions) {
       // If the file is a directory
       if (fs.lstatSync(fullPath).isDirectory()) {
         if (shouldIgnore(relativePath, ignoreDirs, ignoreExtensions, true)) {
-          structure[file] = "(...)";
+          layout[file] = "(...)";
         } else {
-          structure[file] = getFolderStructureJson(fullPath, ignoreDirs, ignoreExtensions);
+          layout[file] = getFolderLayoutJson(fullPath, ignoreDirs, ignoreExtensions);
         }
       } else {
         // If the file is not a directory and should not be ignored
         if (!shouldIgnore(relativePath, ignoreDirs, ignoreExtensions)) {
-          structure[file] = null;
+          layout[file] = null;
         }
       }
     });
   }
 
-  return structure;
+  return layout;
 }
 
 
-// Function to get the folder structure in Markdown format
-function getFolderStructureMarkdown(dir, ignoreDirs, ignoreExtensions, level) {
+// Function to get the folder layout in Markdown format
+function getFolderLayoutMarkdown(dir, ignoreDirs, ignoreExtensions, level) {
   let output = "";
 
   // If the directory exists
@@ -138,7 +138,7 @@ function getFolderStructureMarkdown(dir, ignoreDirs, ignoreExtensions, level) {
           output += `${indent}- ${file}/ (...)\n`;
         } else {
           output += `${indent}- ${file}/\n`;
-          output += getFolderStructureMarkdown(fullPath, ignoreDirs, ignoreExtensions, level + 1);
+          output += getFolderLayoutMarkdown(fullPath, ignoreDirs, ignoreExtensions, level + 1);
         }
       } else if (!shouldIgnore(relativePath, ignoreDirs, ignoreExtensions)) {
         output += `${indent}- ${file}\n`;
@@ -150,8 +150,8 @@ function getFolderStructureMarkdown(dir, ignoreDirs, ignoreExtensions, level) {
 }
 
 
-// Function to get the folder structure in plain format
-function getFolderStructurePlain(dir, ignoreDirs, ignoreExtensions, level) {
+// Function to get the folder layout in plain format
+function getFolderLayoutPlain(dir, ignoreDirs, ignoreExtensions, level) {
   let output = "";
 
   // If the directory exists
@@ -170,7 +170,7 @@ function getFolderStructurePlain(dir, ignoreDirs, ignoreExtensions, level) {
           output += indent + `[${file}] (...)\n`;
         } else {
           output += indent + `[${file}]\n`;
-          output += getFolderStructurePlain(fullPath, ignoreDirs, ignoreExtensions, level + 1);
+          output += getFolderLayoutPlain(fullPath, ignoreDirs, ignoreExtensions, level + 1);
         }
       } else if (!shouldIgnore(relativePath, ignoreDirs, ignoreExtensions)) {
         output += indent + file + "\n";
@@ -196,7 +196,7 @@ function getDirectoriesToIgnore() {
   }
 
   // Getting the settings
-  const config = vscode.workspace.getConfiguration('vscodeProjectStructure');
+  const config = vscode.workspace.getConfiguration('vscodeProjectLayout');
   const relativePathToIgnore = config.get('ignoreDirPath');
 
   // Resolve the absolute path to the ignore file
