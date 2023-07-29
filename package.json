@@ -2,7 +2,7 @@
   "name": "Project-Layout-VSCode",
   "displayName": "Project Layout",
   "description": "This VSCode extension helps visualize a codebase's organization by creating a text-based project layout, which can be exported in different formats.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "icon": "images/improved_quality_logo.jpg",
   "engines": {
     "vscode": "^1.54.0"

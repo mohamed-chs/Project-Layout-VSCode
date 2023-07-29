@@ -99,6 +99,8 @@ You can install the Project Layout extension directly from the Visual Studio Cod
 
 Initial release.
 
+### 1.0.1
+
 ## Contributions
 
 Your contributions are always welcome! Feel free to create issues or submit pull requests.
