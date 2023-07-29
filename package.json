@@ -1,21 +1,161 @@
 {
   "name": "Project-Layout-VSCode",
   "displayName": "Project Layout",
-  "description": "\"Project Layout\" is a Visual Studio Code extension that generates a text representation of a project's structure, offering a quick overview of files, directories, and dependencies. It provides customizable views, export options, and supports various project types, aiding developers in visualizing and understanding their codebase.",
-  "version": "0.0.1",
+  "description": "This VSCode extension helps visualize a codebase's organization by creating a text-based project structure, which can be exported in different formats.",
+  "version": "1.0.0",
+  "icon": "images/logo.jpeg",
   "engines": {
     "vscode": "^1.54.0"
   },
   "categories": [
     "Other"
   ],
+  "publisher": "Austin-Lin",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mohamed-CHS/Project-Layout-VSCode"
+  },
+  "license": "MIT",
   "activationEvents": [],
   "main": "./extension.js",
   "contributes": {
-    "commands": [{
-      "command": "Project-Layout-VSCode.helloWorld",
-      "title": "Hello World"
-    }]
+    "commands": [
+      {
+        "command": "extension.generateProjectStructure",
+        "title": "Generate Project Structure"
+      }
+    ],
+    "configuration": {
+      "title": "VSCode Project Structure",
+      "properties": {
+        "vscodeProjectStructure.outputFileName": {
+          "type": "string",
+          "default": "project_structure",
+          "description": "Specify the name for the output file."
+        },
+        "vscodeProjectStructure.outputFileLocation": {
+          "type": "string",
+          "default": ".",
+          "description": "Specify the relative path for the output file."
+        },
+        "vscodeProjectStructure.additionalIgnoreDirs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "node_modules",
+            "bower_components",
+            "dist",
+            "out",
+            "build",
+            ".git",
+            ".svn",
+            ".hg",
+            ".idea",
+            ".vs",
+            ".vscode",
+            "tmp",
+            "temp",
+            "_tmp",
+            "_temp",
+            "logs",
+            "artifacts",
+            ".next",
+            ".nuxt",
+            ".cache",
+            "vendor",
+            "__pycache__",
+            "debug",
+            "release",
+            ".settings",
+            ".metadata",
+            "bin",
+            "obj",
+            "gen",
+            ".gradle",
+            "__MACOSX",
+            ".DS_Store",
+            ".Spotlight-V100",
+            ".Trashes",
+            ".fseventsd",
+            "Thumbs.db",
+            ".pytest_cache",
+            ".mypy_cache",
+            ".sass-cache",
+            ".npm",
+            ".pnp",
+            ".virtualenv"
+          ],
+          "description": "Specify additional directories to ignore."
+        },
+        "vscodeProjectStructure.ignoreExtensions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            ".log",
+            ".tmp",
+            ".temp",
+            ".bak",
+            ".backup",
+            ".swp",
+            ".swo",
+            ".lock",
+            ".cache",
+            ".DS_Store",
+            ".o",
+            ".obj",
+            ".pdb",
+            ".dmp",
+            ".sass-cache",
+            ".session",
+            ".pid",
+            ".swp",
+            ".suo",
+            ".idb",
+            ".pyc",
+            ".orig",
+            ".rej",
+            ".~",
+            ".thumbs",
+            ".Spotlight-V100",
+            ".Trashes",
+            ".fseventsd",
+            "Thumbs.db",
+            ".vs",
+            ".gradle",
+            ".idea",
+            ".metadata",
+            ".build",
+            ".project",
+            ".settings",
+            ".obj",
+            ".lastbuildstate",
+            ".dir-locals.el",
+            ".vagrant",
+            ".terraform"
+          ],
+          "description": "Specify file extensions to ignore."
+        },
+        "vscodeProjectStructure.ignoreDirPath": {
+          "type": "string",
+          "default": "./.gitignore",
+          "description": "Specify the path to the file containing directories to ignore."
+        },
+        "vscodeProjectStructure.outputFormat": {
+          "type": "string",
+          "enum": [
+            "plain",
+            "markdown",
+            "json"
+          ],
+          "default": "plain",
+          "description": "Specify the format for the output file. Options are 'plain', 'markdown', or 'json'."
+        }
+      }
+    }
   },
   "scripts": {
     "lint": "eslint .",
@@ -32,5 +172,6 @@
     "mocha": "^10.2.0",
     "typescript": "^5.1.3",
     "@vscode/test-electron": "^2.3.2"
-  }
+  },
+  "__metadata": {}
 }
