@@ -1,17 +1,56 @@
-# Ignore node_modules directory
+# Node.js specific
 node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
 
-# Ignore build artifacts
-out/
+# Build output
 dist/
+build/
+out/
 
-# Ignore user-specific settings and files
+# Environment variables file
+.env
+
+# Editor / IDE specific
 .vscode/
-*.log
+.idea/
+*.swp
+*.swo
 
-# Ignore operating system generated files
+# macOS specific files
 .DS_Store
+
+# Windows specific files
 Thumbs.db
 
-# Ignore any .env files
-.env
+# Log files
+*.log
+
+# Compiled output of TypeScript files
+*.js
+
+# Dependency directories
+jspm_packages/
+bower_components/
+
+# Coverage directory for code coverage reports
+coverage/
+
+# Cypress end-to-end test output
+cypress/videos/
+cypress/screenshots/
+
+# Webpack specific
+/.webpack
+
+# Parcel specific
+.cache/
+.parcel-cache/
+
+# Next.js specific
+.next/
+
+# Nuxt.js specific
+.nuxt/
